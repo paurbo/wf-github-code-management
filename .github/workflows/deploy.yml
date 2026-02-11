@@ -1,0 +1,53 @@
+name: Build & Update Manifest
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'manifest.json' # Prevent infinite loops!
+      - 'dist/**'       # Don't trigger if only dist changes
+
+permissions:
+  contents: write # CRITICAL: Allows the Action to push code back to the repo
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Check out the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Install Dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Minify Code (Runs your 'build' script)
+      - name: Build Project
+        run: npm run build
+
+      # 5. Generate Manifest.json
+      # We use the short commit hash as the version ID
+      - name: Generate Manifest
+        id: manifest
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "{\"version\": \"$SHORT_SHA\", \"updated\": \"$(date -u)\"}" > manifest.json
+          echo "Generated version: $SHORT_SHA"
+
+      # 6. Commit & Push Changes
+      # This updates the 'dist' folder and 'manifest.json' in your repo
+      - name: Commit & Push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 CI: Build & Version Bump [skip ci]"
+          file_pattern: 'dist/ manifest.json'
