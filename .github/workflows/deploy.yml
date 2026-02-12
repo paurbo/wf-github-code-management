@@ -52,3 +52,14 @@ jobs:
         with:
           commit_message: "🤖 CI: Build & Version Bump [skip ci]"
           file_pattern: 'dist/ manifest.json'
+
+      - name: Purge JSDelivr Cache
+        run: |
+          # Purge the staging branch file
+          curl -X GET https://purge.jsdelivr.net/gh/${{ github.repository }}@staging/dist/main.js
+          
+          # Purge the main branch file (if on main)
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            curl -X GET https://purge.jsdelivr.net/gh/${{ github.repository }}@main/dist/main.js
+            curl -X GET https://purge.jsdelivr.net/gh/${{ github.repository }}@main/manifest.json
+          fi
