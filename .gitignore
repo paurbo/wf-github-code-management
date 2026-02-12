@@ -1,2 +1,21 @@
-node_modules
-dist
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Optional: Ignore dist/ LOCALLY if you want to force the Action to build it
+# But for JSDelivr, we usually keep dist/ in the repo.
+# dist/
+
+# System Files
+.DS_Store
+Thumbs.db

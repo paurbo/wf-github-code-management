@@ -2,17 +2,28 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   server: {
-    port: 3000, // Matches the port in our Loader Script
-    cors: true, // CRITICAL: Allows Webflow to load scripts from your machine
+    host: 'localhost',
+    cors: '*', // Allow Webflow to load local scripts
+    hmr: {
+      host: 'localhost',
+      protocol: 'ws',
+    },
   },
   build: {
+    minify: true,
+    manifest: true,
     rollupOptions: {
-      input: 'src/main.js', // Your entry point
+      input: './src/main.js',
       output: {
-        entryFileNames: 'main.js', // Forces a consistent filename (no hashes)
-        format: 'iife', // "Immediately Invoked Function Expression" - safe for browsers
-        name: 'WebflowSite', // Global variable name if needed
-      }
-    }
-  }
+        format: 'umd', // Universal Module Definition (works everywhere)
+        entryFileNames: 'main.js',
+        esModule: false,
+        compact: true,
+        globals: {
+          jquery: '$', // If you use jQuery
+        },
+      },
+      external: ['jquery'], // Don't bundle jQuery (Webflow already has it)
+    },
+  },
 });

@@ -1,0 +1,14 @@
+/* Global overrides */
+:root {
+  --brand-color: #ff5733;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Example: Hiding things until GSAP loads to prevent flicker */
+.is-loading {
+  opacity: 0;
+  visibility: hidden;
+}

@@ -1,29 +1,25 @@
-(async function() {
-  const githubUser = 'paurbo';
-  const repoName = 'wf-github-code-management';
-  const mainFile = 'dist/main.min.js';
+import './styles/style.css'; // Import your CSS so Vite bundles it
+import { initNav } from './components/nav.js';
+import { initHome } from './pages/home.js';
+import { initAbout } from './pages/about.js';
 
-  // 1. Fetch the manifest (using a timestamp to ensure we get the latest manifest)
-  // This file is tiny (<1KB), so it loads instantly.
-  const manifestUrl = `https://cdn.jsdelivr.net/gh/${githubUser}/${repoName}@main/manifest.json?t=${Date.now()}`;
-  
-  let version = 'latest'; // Fallback
-  
-  try {
-    const response = await fetch(manifestUrl);
-    const data = await response.json();
-    version = data.version; // e.g., "a1b2c3d"
-  } catch (e) {
-    console.warn('Manifest load failed, falling back to latest');
-  }
+// 1. Global Code (Runs on every page)
+// e.g., Custom cursor, Nav animations, Cookie banner
+document.addEventListener('DOMContentLoaded', () => {
+  initNav();
+  console.log('Global scripts loaded 🌍');
+});
 
-  // 2. Load the actual script with the specific version hash
-  const scriptUrl = `https://cdn.jsdelivr.net/gh/${githubUser}/${repoName}@main/${mainFile}?v=${version}`;
+// 2. Page-Specific Code (Router)
+const page = document.body.getAttribute('data-page');
 
-  const script = document.createElement('script');
-  script.src = scriptUrl;
-  script.defer = true;
-  document.body.appendChild(script);
-  
-  console.log(`🚀 Loaded Production Build: ${version}`);
-})();
+switch (page) {
+  case 'home':
+    initHome();
+    break;
+  case 'about':
+    initAbout();
+    break;
+  default:
+    console.log(`No specific scripts for page: ${page}`);
+}
