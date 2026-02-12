@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 2. Page-Specific Code (Router)
-const page = document.body.getAttribute('data-page');
+const page = document.documentElement.dataset.wfPage;
 
 switch (page) {
-  case 'home':
+  case '698c9fa84beb9de881eaccf1': // Home page
     initHome();
     break;
-  case 'about':
+  case 'about': // /about
     initAbout();
     break;
   default:
