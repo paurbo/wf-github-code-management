@@ -2,9 +2,11 @@
   "name": "wf-github-code-management",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/paurbo/wf-github-code-management/issues"
   },
-  "homepage": "https://github.com/paurbo/wf-github-code-management#readme"
+  "homepage": "https://github.com/paurbo/wf-github-code-management#readme",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
 }
