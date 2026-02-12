@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - production
+      - staging
     paths-ignore:
       - 'manifest.json' # Prevent infinite loops!
       - 'dist/**'       # Don't trigger if only dist changes
