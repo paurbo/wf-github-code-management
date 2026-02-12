@@ -3,7 +3,7 @@ name: Build & Update Manifest
 on:
   push:
     branches:
-      - main
+      - production
     paths-ignore:
       - 'manifest.json' # Prevent infinite loops!
       - 'dist/**'       # Don't trigger if only dist changes
